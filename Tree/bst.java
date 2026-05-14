@@ -1,5 +1,5 @@
 import java.util.*;
-public class Main{
+public class bst{
     public static void main(String[] args){
         BinaryTree bst = new BinaryTree();
         bst.insert(76);
