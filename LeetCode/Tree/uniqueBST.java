@@ -1,12 +1,11 @@
 class Solution {
     public int numTrees(int n) {
-       long catalan = 1; 
-        // formula for nth catalan number is (2n!)/((n+1)! * n!)
-        for (int i = 0; i < n; i++) {
-            catalan = catalan * (2 * n - i) / (i + 1);
+        double catalan = 1.0;
+        for (int i = n+2, j = 2; i <= (2*n); i++, j++) {
+            catalan = catalan * ((double)i/j);
         }
+        return (int)Math.round((catalan));
         
-        return (int) (catalan / (n + 1));
     }
 
 }
