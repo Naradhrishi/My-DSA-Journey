@@ -1,6 +1,7 @@
 import java.util.*;
 
 
+// for unweighted graph
 // class Main{
 //     public static void main(String args[]){
 //         Graph myGraph = new Graph(3, false);
@@ -14,26 +15,55 @@ import java.util.*;
 // }
 
 
-class Main{
-    public static void main(String[] args) {
-        WeightedGraph myGraph = new WeightedGraph(3, false);
-        myGraph.addEdge(0,2,5);
-        myGraph.addEdge(1, 2, 7);
+//  for weighted graph using primitive array
+// class Main{
+//     public static void main(String[] args) {
+//         WeightedGraph myGraph = new WeightedGraph(3, false);
+//         myGraph.addEdge(0,2,5);
+//         myGraph.addEdge(1, 2, 7);
 
-        int source = 2;
-        List<int[]> allNeighbors = myGraph.getNeighbors(source);
+//         int source = 2;
+//         List<int[]> allNeighbors = myGraph.getNeighbors(source);
 
-        for(int i=0; i < allNeighbors.size(); i++){
-            int[] array = allNeighbors.get(i);
-            for(int j = 0; j < array.length ; j++){
-                System.out.print(array[j] + "  ");
-            }
-            System.out.println("\n");
-        }
+//         for(int i=0; i < allNeighbors.size(); i++){
+//             int[] array = allNeighbors.get(i);
+//             for(int j = 0; j < array.length ; j++){
+//                 System.out.print(array[j] + "  ");
+//             }
+//             System.out.println("\n");
+//         }
         
 
+//     }
+// }
+
+
+// for weighted graph using Edge class
+class Main{
+    public static void main(String[] args) {
+        WeightedGraph myGraph = new WeightedGraph(3, true);
+
+        myGraph.addEdge(0, 2, 5);
+        myGraph.addEdge(1, 2, 7);
+
+        int source = 0;
+        List<Edge> edgeList = myGraph.getNeighbors(source);
+
+        if(edgeList.size() == 0){
+            System.out.println("This source has not outward edges!");
+        }
+
+        for(int i = 0; i < edgeList.size(); i++){
+            Edge eachEdge = edgeList.get(i);
+            
+            System.out.print(eachEdge.destination + "  ");
+            System.out.println("(" + eachEdge.edgeWeight + ")");
+
+        }
     }
 }
+
+
 
 // // graph representation using Adjacency Matrix
 // class Graph{
@@ -151,3 +181,49 @@ class Main{
 // }
 
 
+// using class based structure to store weights
+
+class Edge{
+    int destination;
+    int edgeWeight;
+
+    public Edge(int destination, int edgeWeight){
+        this.destination = destination;
+        this.edgeWeight = edgeWeight;
+
+    }
+
+}
+class WeightedGraph{
+    int nVertices;
+    boolean isDirected;
+    List<List<Edge>> adjList;
+
+    public WeightedGraph(int nVertices, boolean isDirected){
+        this.nVertices = nVertices;
+        this.isDirected = isDirected;
+        this.adjList = new ArrayList<>();
+
+        for(int i = 0; i < nVertices; i++){
+            this.adjList.add(new ArrayList<>());
+
+        }
+        
+    }
+
+    public void addEdge(int source, int destination, int weight){
+        Edge e = new Edge(destination, weight);
+        this.adjList.get(source).add(e);
+
+        if(!isDirected){
+            Edge eReverse = new Edge(source, weight);
+            this.adjList.get(destination).add(eReverse);
+
+        }
+
+    }
+
+    public List<Edge> getNeighbors(int source){
+        return this.adjList.get(source);
+    }
+}
