@@ -1,6 +1,6 @@
 class Solution {
     static ArrayList<Integer> nextSmallerEle(int[] arr) {
-        ArrayList<Integer> next_smaller = new ArrayList<>();
+        ArrayList<Integer> nextSmaller = new ArrayList<>();
         int[] res = new int[arr.length];
         Deque<Integer> stack = new ArrayDeque<>();
         
@@ -14,9 +14,9 @@ class Solution {
         }
         
         for(int v : res){
-            next_smaller.add(v);
+            nextSmaller.add(v);
         }
         
-        return next_smaller;
+        return nextSmaller;
     }
 }
