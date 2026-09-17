@@ -23,24 +23,19 @@ class Node {
 
 class Solution {
     public Node connect(Node root) {
-        Deque<Node> q = new ArrayDeque<>();
         if(root == null){return null;}
-        q.offer(root);
-        while(!q.isEmpty()){
-            int s = q.size();
-            Node prev = null;
-            for(int i=0; i<s; i++){
-                Node curr = q.poll();
-                if(prev != null){
-                    prev.next = curr;
-                }
-                prev = curr;
-                if(curr.left != null){q.offer(curr.left);}
-                if(curr.right != null){q.offer(curr.right);}
-
-            }
-            prev.next = null;
-        }
+        dfs(root);
         return root;
     }
+    public void dfs(Node root){
+        if(root.left == null && root.right == null){return;}
+        root.left.next = root.right;
+        if(root.next != null){
+            root.right.next = root.next.left;
+        }
+        dfs(root.left);
+        dfs(root.right);
+
+    }
+    
 }
