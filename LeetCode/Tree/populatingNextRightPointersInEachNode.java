@@ -24,18 +24,22 @@ class Node {
 class Solution {
     public Node connect(Node root) {
         if(root == null){return null;}
-        dfs(root);
-        return root;
-    }
-    public void dfs(Node root){
-        if(root.left == null && root.right == null){return;}
-        root.left.next = root.right;
-        if(root.next != null){
-            root.right.next = root.next.left;
+        Node nextLevel = root, curr = null;
+        while(nextLevel != null && nextLevel.left != null){
+            if(curr == null){
+                curr = nextLevel;
+                nextLevel = curr.left;
+            }
+            while(curr != null){
+                curr.left.next = curr.right;
+                if(curr.next != null){
+                    curr.right.next = curr.next.left;
+                }
+                curr = curr.next;
+            }
+            
         }
-        dfs(root.left);
-        dfs(root.right);
-
+        return root;
     }
     
 }
