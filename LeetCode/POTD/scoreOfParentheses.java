@@ -4,7 +4,6 @@ class Solution {
         Deque<String> stack = new ArrayDeque<>();
         for(int i=0; i<s.length(); i++){
             char curr = s.charAt(i);
-            System.out.println(score);
             if(curr == '('){
                 if(score != 0){stack.push(score+"");score = 0;}
                 stack.push("(");
@@ -35,7 +34,6 @@ class Solution {
             
         }
         while(stack.size() != 0){
-            System.out.println(stack.peek());
             score += Integer.parseInt(stack.peek());
             stack.pop();
         }
