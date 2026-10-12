@@ -1,53 +1,30 @@
 class Solution {
     public static int getMaxArea(int arr[]) {
-        List<int[]> nextSmaller = new ArrayList<>();
-        List<int[]> prevSmaller = new ArrayList<>();
+        Deque<Integer> stack = new ArrayDeque<>();
+        int[] ps = new int[arr.length];
+        int[] ns = new int[arr.length];
+        Arrays.fill(ps, -1);
+        Arrays.fill(ns, arr.length);
+        int maxArea = 0, area = 0;
         
-        Deque<int[]> stack = new ArrayDeque<>();
         
-        int maxArea = 0;
-        // check prev smaller
-        for(int i=0;i<arr.length;i++){
-            while(!stack.isEmpty() && stack.peek()[0] >= arr[i]){
-                stack.pop();
+        for(int i=0; i<arr.length; i++){
+            
+            while(!stack.isEmpty() && arr[stack.peek()] > arr[i]){
+                ns[stack.pop()] = i;
             }
             
-            int[] val = stack.isEmpty() ? new int[]{-1,-1} : stack.peek();
-            prevSmaller.add(val);
+            if(!stack.isEmpty()){ps[i] = stack.peek();}
             
-            stack.push(new int[]{arr[i], i});
-            
+            stack.push(i);
         }
         
-        stack.clear();
-        
-        // next smaller
-        for(int i=arr.length-1; i >= 0; i--){
-            while(!stack.isEmpty() && stack.peek()[0] >= arr[i]){
-                stack.pop();
-            }
-            
-            int[] val = stack.isEmpty() ? new int[]{-1,arr.length} : stack.peek();
-            nextSmaller.add(val);
-            
-            stack.push(new int[]{arr[i], i});
-            
-        }
-        Collections.reverse(nextSmaller);
-        
-        
-        for(int i=0; i<prevSmaller.size(); i++){
-            int next = nextSmaller.get(i)[1];
-            int prev = prevSmaller.get(i)[1];
-            
-            
-        
-            int area = ((next - prev) - 1) * arr[i];
-            
-            maxArea = area > maxArea ? area : maxArea;
+        for(int i=0; i<arr.length; i++){
+
+            area = (ns[i] - ps[i] -1) * arr[i];
+            maxArea = (area > maxArea) ? area : maxArea;
         }
         
         return maxArea;
-        
     }
 }
