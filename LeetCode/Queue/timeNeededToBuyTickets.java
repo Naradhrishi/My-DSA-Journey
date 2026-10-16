@@ -1,21 +1,15 @@
 class Solution {
     public int timeRequiredToBuy(int[] tickets, int k) {
-        Deque<Integer> q = new ArrayDeque<>();
-        int time = 0, needToBuy = tickets[k];
+        int time = tickets[k];
+        if(k == 0 && tickets[k] == 1){return 1;}
         for(int i=0; i<tickets.length; i++){
-            q.offer(i);
+           if(i < k){
+            time += Math.min(tickets[i], tickets[k]);
+           }else if(i > k){
+            time += Math.min(tickets[k] - 1, tickets[i]);
+           }
         }
-        while(needToBuy > 0){
-            int curr = q.poll();
-            if(curr == k){
-                needToBuy--;
-            }
-            time++;
-            tickets[curr]--;
-            if(tickets[curr] != 0){
-                q.offer(curr);
-            }
-        }
+        
         return time;
     }
 }
